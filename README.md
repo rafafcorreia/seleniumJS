@@ -4,11 +4,13 @@
 
 2. Adicionar seguinte trecho no package.json:
 
-`"scripts": {
+`
+"scripts": {
     "test": "jest"
   },
   "jest": {
     "testTimeout": 50000
-}`
+}
+`
 
 3. Rodar os testes com `npm test` 
