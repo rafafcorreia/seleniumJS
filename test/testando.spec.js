@@ -1,17 +1,20 @@
 const webdriver = require('selenium-webdriver');
-const HomePage = require('../pageObjects/HomePage')
+const chrome = require('selenium-webdriver/chrome');
 const By = webdriver.By;
 const assert = require('chai').assert;
 require('chromedriver');
 
 describe('Google', () => {
     let driver;
+    const options = new chrome.Options().headless()
 
     beforeEach(async () => {
         driver = new webdriver.Builder()
             .forBrowser('chrome')
+            .setChromeOptions(options)
             .build()
         driver.manage().setTimeouts({ implicit: 30000 });
+        driver.manage().window().maximize();
     })
 
     afterEach(() => {
@@ -30,10 +33,10 @@ describe('Google', () => {
         assert.equal(title, 'webdriver - Pesquisa Google');
 
         await driver.findElement(By.css('a[href^="https://chromedriver.chromium.org/"]')).click()
-        tituloWebDriver = await driver.getTitle();
         cabecalho = await driver.findElement(By.css('span.Rn3Z1b')).getText();
-        assert.equal(tituloWebDriver, 'ChromeDriver - WebDriver for Chrome');
-        assert.equal(cabecalho, 'ChromeDriver');
+        tituloWebDriver = await driver.getTitle();
+        await assert.equal(tituloWebDriver, 'ChromeDriver - WebDriver for Chrome');
+        await assert.equal(cabecalho, 'ChromeDriver');
     })
 
     it('Pesquisar Iterasys - Com Enter', async () => {
@@ -41,19 +44,6 @@ describe('Google', () => {
         await driver.findElement(By.name('q')).sendKeys(webdriver.Key.chord('Iterasys', webdriver.Key.ENTER));
         let title = await driver.getTitle()
         assert.equal(title, 'Iterasys - Pesquisa Google');
-    })
-
-    it.only('Comprar Passagem', async () => {
-        await driver.get('https://blazedemo.com')
-        await driver.sleep(2000)
-        
-        const homePage = new HomePage(driver);
-        await homePage.selecionarOrigem('Boston')
-        await homePage.selecionarDestino('Dublin')
-        await homePage.driver.sleep(2000)
-        
-        await homePage.clicarBtnBuscar()
-        await homePage.driver.sleep(2000)
     })
 })
 

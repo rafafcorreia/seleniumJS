@@ -1,10 +1,10 @@
-const webdriver = require('selenium-webdriver');
-const By = webdriver.By;
+const BasePage = require('./BasePage')
+const By = require('selenium-webdriver').By;
 
-class HomePage {
+class HomePage extends BasePage {
 
     constructor(driver) {
-        this.driver = driver;
+        super(driver)
         this.byDropdownOrigem = By.name('fromPort');
         this.byDropdownDestino = By.name('toPort');
         this.btnBuscar = By.css('input.btn.btn-primary');
@@ -25,4 +25,4 @@ class HomePage {
     }
 }
 
-module.exports = HomePage
+module.exports = HomePage;
