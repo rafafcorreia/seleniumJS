@@ -1,22 +1,26 @@
-const { Builder, By, Key, until } = require('selenium-webdriver')
+// const { Builder, By, Key, until } = require('selenium-webdriver')
+const webdriver = require("selenium-webdriver");
+const By  = webdriver.By;
 const assert = require('assert')
 require('chromedriver');
 
 describe('Comprar Passagem', () => {
   let driver
   let vars
-  
-  beforeEach(async function() {
-    driver = await new Builder().forBrowser('chrome').build()
+
+  beforeEach(async () => {
+    // driver = await new Builder().forBrowser('chrome').build()
+    driver = await new webdriver.Builder().forBrowser('chrome').build()
+    
     vars = {}
-    await driver.manage().setTimeouts( { implicit: 30000 } );
+    await driver.manage().setTimeouts({ implicit: 30000 });
   })
 
-  afterEach(async function() {
+  afterEach(async () => {
     await driver.quit();
   })
 
-  it('Comprar Passagem', async function() {
+  it('Comprar Passagem', async function () {
     await driver.get("https://blazedemo.com/")
     await driver.manage().window().setRect({ width: 1296, height: 696 })
     // await driver.wait(until.elementIsVisible(await driver.findElement(By.name("fromPort"))), 5000)
@@ -50,7 +54,7 @@ describe('Comprar Passagem', () => {
 
     // await driver.findElement(By.id("creditCardYear")).click()
     await driver.findElement(By.id("creditCardYear")).sendKeys("2025")
-    
+
     // Checkbox lembre-se de mim
     await driver.findElement(By.css(".checkbox")).click()
 
@@ -59,7 +63,7 @@ describe('Comprar Passagem', () => {
 
     // await driver.findElement(By.css("h1")).click()
     // await driver.findElement(By.css("th:nth-child(2)")).click()
-    
+
     assert(await driver.findElement(By.css("h1")).getText() == "Thank you for your purchase today!")
     assert(await driver.findElement(By.css("tr:nth-child(3) > td:nth-child(2)")).getText() == "555 USD")
   })
