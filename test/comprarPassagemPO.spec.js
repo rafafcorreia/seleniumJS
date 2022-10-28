@@ -9,14 +9,14 @@ const massa = require('../vendors/json/massa')
 describe('Comprar Passagem via Blazedemo - Page Object', () => {
 
     let driver;
-    const options = new chrome.Options()
+    const options = new chrome.Options().headless()
 
     beforeEach(() => {
         driver = new webdriver.Builder()
             .forBrowser('chrome')
             .setChromeOptions(options)
             .build()
-        driver.manage().setTimeouts({ implicit: 10000 });
+        driver.manage().setTimeouts({ implicit: 30000 });
         driver.manage().window().maximize();
     })
 
@@ -24,7 +24,7 @@ describe('Comprar Passagem via Blazedemo - Page Object', () => {
         driver.quit();
     })
 
-    it('Comprar Passagem', async() => {
+    it.only('Comprar Passagem PO', async() => {
         await driver.get('https://blazedemo.com')
         
         const homePage = new HomePage(driver);

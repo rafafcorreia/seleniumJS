@@ -1,6 +1,5 @@
 // const { Builder, By, Key, until } = require('selenium-webdriver')
-const webdriver = require("selenium-webdriver");
-const By  = webdriver.By;
+const {Builder, By} = require('selenium-webdriver');
 const assert = require('assert')
 require('chromedriver');
 
@@ -10,7 +9,7 @@ describe('Comprar Passagem', () => {
 
   beforeEach(async () => {
     // driver = await new Builder().forBrowser('chrome').build()
-    driver = await new webdriver.Builder().forBrowser('chrome').build()
+    driver = await new Builder().forBrowser('chrome').build()
     
     vars = {}
     await driver.manage().setTimeouts({ implicit: 30000 });
