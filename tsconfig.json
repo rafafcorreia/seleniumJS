@@ -14,6 +14,6 @@
       "allowJs": true
   },
   "include": [
-    "./features/step_definitions/"
+    "features/step_definitions/*.ts"
   ]
 }

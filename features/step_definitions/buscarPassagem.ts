@@ -1,6 +1,22 @@
-import { Given, When, Then } from "@cucumber/cucumber"
+import { Given, When, Then, Before, After } from "@cucumber/cucumber"
 import { assert } from 'chai';
 import HomePage = require("../../pageObjects/HomePage");
+import { Builder } from "selenium-webdriver";
+require("chromedriver")
+
+Before(async function () {
+    this.driver = await new Builder()
+        .forBrowser('chrome')
+        // .setChromeOptions(options)
+        .build()
+    this.driver.manage().setTimeouts({ implicit: 30000 });
+    this.driver.manage().window().maximize();
+    
+});
+
+After(async function () {
+    await this.driver.quit()
+})
 
 Given('acesso o BlazeDemo', async function () {
     await this.driver.get('https://blazedemo.com')
@@ -19,6 +35,7 @@ When('seleciono destino como {string}', async function (texto: string) {
 
 When('clico em buscar passagens', async function () {
     await this.homePage.clicarBtnBuscar()
+    await this.driver.sleep(3000)
 });
 
 Then('carrega pagina de reservas', async function () {

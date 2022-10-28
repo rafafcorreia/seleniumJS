@@ -24,7 +24,7 @@ describe('Comprar Passagem via Blazedemo - Page Object', () => {
         driver.quit();
     })
 
-    it.only('Comprar Passagem PO', async() => {
+    it('Comprar Passagem PO', async() => {
         await driver.get('https://blazedemo.com')
         
         const homePage = new HomePage(driver);
