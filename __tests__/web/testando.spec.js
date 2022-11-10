@@ -1,15 +1,14 @@
-const webdriver = require('selenium-webdriver');
-const chrome = require('selenium-webdriver/chrome');
-const By = webdriver.By;
+const { Builder, By, Key } = require('selenium-webdriver')
 const assert = require('chai').assert;
+const chrome = require('selenium-webdriver/chrome')
 require('chromedriver');
 
 describe('Google', () => {
     let driver;
-    const options = new chrome.Options()
+    const options = new chrome.Options().headless()
 
     beforeEach(async () => {
-        driver = new webdriver.Builder()
+        driver = new Builder()
             .forBrowser('chrome')
             .setChromeOptions(options)
             .build()
@@ -41,7 +40,7 @@ describe('Google', () => {
 
     it('Pesquisar Iterasys - Com Enter', async () => {
         await driver.get('https://www.google.com');
-        await driver.findElement(By.name('q')).sendKeys(webdriver.Key.chord('Iterasys', webdriver.Key.ENTER));
+        await driver.findElement(By.name('q')).sendKeys(Key.chord('Iterasys', Key.ENTER));
         let title = await driver.getTitle()
         assert.equal(title, 'Iterasys - Pesquisa Google');
     })

@@ -1,5 +1,5 @@
 const HomePage = require('../../pageObjects/HomePage');
-const webdriver = require('selenium-webdriver')
+const {Builder} = require('selenium-webdriver')
 const chrome = require('selenium-webdriver/chrome');
 const assert = require('chai').assert;
 require('chromedriver')
@@ -9,10 +9,10 @@ const massa = require('../../vendors/json/massa')
 describe('Comprar Passagem via Blazedemo - Page Object', () => {
 
     let driver;
-    const options = new chrome.Options()
+    const options = new chrome.Options().headless()
 
     beforeEach(() => {
-        driver = new webdriver.Builder()
+        driver = new Builder()
             .forBrowser('chrome')
             .setChromeOptions(options)
             .build()
