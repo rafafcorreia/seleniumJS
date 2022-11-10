@@ -6,7 +6,7 @@ require('chromedriver');
 
 describe('Google', () => {
     let driver;
-    const options = new chrome.Options().headless()
+    const options = new chrome.Options()
 
     beforeEach(async () => {
         driver = new webdriver.Builder()

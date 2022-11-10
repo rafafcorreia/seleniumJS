@@ -1,68 +1,44 @@
-// const { Builder, By, Key, until } = require('selenium-webdriver')
-const {Builder, By} = require('selenium-webdriver');
+const { Builder, By, Key, until } = require('selenium-webdriver')
 const assert = require('assert')
-require('chromedriver');
+require('chromedriver')
 
-describe('Comprar Passagem', () => {
+describe('Comprar Passagem', function () {
+  // this.timeout(30000)
   let driver
   let vars
-
-  beforeEach(async () => {
-    // driver = await new Builder().forBrowser('chrome').build()
+  beforeEach(async function () {
     driver = await new Builder().forBrowser('chrome').build()
-    
+    driver.manage().setTimeouts({ implicit: 30000 })
+    driver.manage().window().maximize()
     vars = {}
-    await driver.manage().setTimeouts({ implicit: 30000 });
   })
-
-  afterEach(async () => {
+  afterEach(async function () {
     await driver.quit();
   })
-
-  it('Comprar Passagem', async function () {
-    await driver.get("https://blazedemo.com/")
-    await driver.manage().window().setRect({ width: 1296, height: 696 })
-    // await driver.wait(until.elementIsVisible(await driver.findElement(By.name("fromPort"))), 5000)
-    // await driver.findElement(By.name("fromPort")).click()
+  it.only('Comprar Passagem', async function () {
+    await driver.get("https://www.blazedemo.com/")
+    await driver.findElement(By.name("fromPort")).click()
     {
       const dropdown = await driver.findElement(By.name("fromPort"))
       await dropdown.findElement(By.xpath("//option[. = 'São Paolo']")).click()
     }
-    // await driver.findElement(By.name("toPort")).click()
+    await driver.findElement(By.name("toPort")).click()
     {
       const dropdown = await driver.findElement(By.name("toPort"))
-      await dropdown.findElement(By.xpath("//option[. = 'New York']")).click()
+      await dropdown.findElement(By.xpath("//option[. = 'Cairo']")).click()
     }
-    // Botão Procurar Voo
     await driver.findElement(By.css(".btn-primary")).click()
-
-    // Botão Escolher Primeiro Voo
     await driver.findElement(By.css("tr:nth-child(1) .btn")).click()
-
-    // await driver.findElement(By.id("cardType")).click()
-
+    await driver.findElement(By.id("cardType")).click()
     {
       const dropdown = await driver.findElement(By.id("cardType"))
       await dropdown.findElement(By.xpath("//option[. = 'American Express']")).click()
     }
-    // await driver.findElement(By.id("nameOnCard")).click()
-    await driver.findElement(By.id("nameOnCard")).sendKeys("Juca Pato")
-
-    // await driver.findElement(By.css(".vsc-initialized")).click()
-    await driver.findElement(By.id("creditCardMonth")).sendKeys("09")
-
-    // await driver.findElement(By.id("creditCardYear")).click()
-    await driver.findElement(By.id("creditCardYear")).sendKeys("2025")
-
-    // Checkbox lembre-se de mim
-    await driver.findElement(By.css(".checkbox")).click()
-
-    // Botão Comprar
+    await driver.findElement(By.id("rememberMe")).click()
+    await driver.findElement(By.id("inputName")).click()
+    await driver.findElement(By.id("inputName")).sendKeys("Juca Pato")
+    await driver.findElement(By.css(".control-group:nth-child(2)")).click()
     await driver.findElement(By.css(".btn-primary")).click()
-
-    // await driver.findElement(By.css("h1")).click()
-    // await driver.findElement(By.css("th:nth-child(2)")).click()
-
     assert(await driver.findElement(By.css("h1")).getText() == "Thank you for your purchase today!")
     assert(await driver.findElement(By.css("tr:nth-child(3) > td:nth-child(2)")).getText() == "555 USD")
   })
